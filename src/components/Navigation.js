@@ -40,8 +40,8 @@ export default class Navigation extends Component {
               </Nav>
               </Navbar.Collapse>
               <Navbar.Collapse className="justify-content-end">
-                <Navbar.Text>
-                  Signed in as: <a href="#login">trader@trader.com</a>
+                <Navbar.Text >
+                  Signed in as: <span style={{fontWeight: "bold"}}>elamparuthi2021@gmail.com</span> 
                 </Navbar.Text>
               </Navbar.Collapse>
 

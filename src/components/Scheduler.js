@@ -1,14 +1,90 @@
 import React, { Component } from "react";
 import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default class Scheduler extends Component {
   state = {
-    email: "",
-    password: "",
-    account: "",
-    balance: "",
+    formScheduleName: "",
+    formStartTimeHour: "",
+    formStartTimeHourMin: "",
+    formStopTimeHour: "",
+    formStopTimeHourMin: "",
+    formDays: ['']
+  }
+
+  change = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   };
+
+  // handleChange(e) {
+  //   //this.setState({value: event.option});
+  //   this.setState({formDays: Array.from(e.target.selectedOptions, (item) => item.value)});
+  // }
+
+  handleSelect(e) {
+    var options = e.target.options;
+    var value = [];
+    for (var i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    this.setState({ formDays: value });
+  }
+
+
+
+  schedulerSubmit = e => {
+    e.preventDefault();
+    // e.preventDefault();
+    console.log(e)
+    // console.log(e.target.betName)
+    console.log(this.state.formScheduleName)
+    console.log(this.state.formStartTimeHour)
+    console.log(this.state.formStartTimeHourMin)
+    console.log(this.state.formStopTimeHour)
+    console.log(this.state.formStopTimeHourMin)
+    console.log(this.state.formDays)
+    console.log("In scheduler submit")
+    const url = 'http://13.232.113.198/placeschedule';
+    const data = {
+      schedulename: this.state.formScheduleName,
+      starttimehour: this.state.formStartTimeHour,
+      starttimeminute: this.state.formStartTimeHourMin,
+      stoptimehour: this.state.formStopTimeHour,
+      stoptimeminute: this.state.formStopTimeHourMin,
+      formDays: this.state.formDays
+    }
+    axios.post(url, data)
+      .then(response => console.log(response.data))
+    this.setState({
+      formScheduleName: "",
+      formStartTimeHour: "",
+      formStartTimeHourMin: "",
+      formStopTimeHour: "",
+      formStopTimeHourMin: "",
+      formDays: ['']
+    });
+  };
+
+  betClick() {
+    // let history = useHistory();
+    console.log("Moving to bet");
+    // history.push('/dashboard')
+    this.props.history.push('/bet');
+
+  }
+
+  panelClick() {
+    // let history = useHistory();
+    console.log("Moving to panel");
+    // history.push('/dashboard')
+    this.props.history.push('/panel');
+
+  }
 
   render() {
     return (
@@ -16,14 +92,20 @@ export default class Scheduler extends Component {
         <Form.Row className="justify-content-center">
           <Form.Group controlId="formScheduleName">
             <Form.Label>Schedule Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter Schedule Name" />
+            <Form.Control placeholder="Enter Schedule Name"
+              value={this.state.formScheduleName}
+              onChange={e => this.setState({ formScheduleName: e.target.value })}
+            />
           </Form.Group>
         </Form.Row>
 
         <Form.Row className="justify-content-center">
           <Form.Group as={Col} xs="3" controlId="formStartTimeHour">
             <Form.Label>Start Time Hour</Form.Label>
-            <Form.Control as="select" defaultValue="Choose...">
+            <Form.Control as="select" defaultValue="Choose..."
+              value={this.state.formStartTimeHour}
+              onChange={e => this.setState({ formStartTimeHour: e.target.value })}
+            >
               <option>Choose...</option>
               <option>...</option>
               <option>00</option>
@@ -58,7 +140,10 @@ export default class Scheduler extends Component {
           <Form.Group as={Col} xs="3" controlId="formStartTimeHourMin">
             <Form.Label>Start Time Min</Form.Label>
             {/* <Form.Label>Side</Form.Label> */}
-            <Form.Control as="select" defaultValue="Choose...">
+            <Form.Control as="select" defaultValue="Choose..."
+              value={this.state.formStartTimeHourMin}
+              onChange={e => this.setState({ formStartTimeHourMin: e.target.value })}
+            >
               <option>Choose...</option>
               <option>...</option>
               <option>00</option>
@@ -129,7 +214,10 @@ export default class Scheduler extends Component {
           <Form.Group as={Col} xs="3" controlId="formStopTimeHour">
             <Form.Label>Stop Time Hour</Form.Label>
             {/* <Form.Label>Side</Form.Label> */}
-            <Form.Control as="select" defaultValue="Choose...">
+            <Form.Control as="select" defaultValue="Choose..."
+              value={this.state.formStopTimeHour}
+              onChange={e => this.setState({ formStopTimeHour: e.target.value })}
+            >
               <option>Choose...</option>
               <option>...</option>
               <option>00</option>
@@ -164,7 +252,10 @@ export default class Scheduler extends Component {
           <Form.Group as={Col} xs="3" controlId="formStopTimeHourMin">
             <Form.Label>Stop Time Min</Form.Label>
             {/* <Form.Label>Side</Form.Label> */}
-            <Form.Control as="select" defaultValue="Choose...">
+            <Form.Control as="select" defaultValue="Choose..."
+              value={this.state.formStopTimeHourMin}
+              onChange={e => this.setState({ formStopTimeHourMin: e.target.value })}
+            >
               <option>Choose...</option>
               <option>...</option>
               <option>00</option>
@@ -232,10 +323,15 @@ export default class Scheduler extends Component {
         </Form.Row>
 
         <Form.Row className="justify-content-center">
-          <Form.Group controlId="formGridLeverage">
+          <Form.Group controlId="formDays">
             <Form.Label>Days</Form.Label>
             {/* <Form.Control type="text" placeholder="Enter Leverage" /> */}
-            <Form.Control as="select" multiple="true">
+            <Form.Control as="select" multiple
+              value={this.state.formDays}
+              // onChange={e => this.setState({formDays: e.target.value})}
+              // onChange ={(e)=> {handleSelect(e.target.selectedOptions)}}
+              onChange={(e) => this.handleSelect(e)}
+            >
               <option>Monday</option>
               <option>Tuesday</option>
               <option>Wednesday</option>
@@ -253,9 +349,13 @@ export default class Scheduler extends Component {
         <Container >
           <Row>
             <Col >
-              <Link to="/bet" >Bet</Link>{'     '}
-
-              <Link to="/panel" >Panel</Link>
+              <Button variant="outline-warning" onClick={() => this.betClick()} >Bet</Button>{' '}
+              {/* <Link to="/dashboard" >Dashboard</Link>{'     '} */}
+              {/* </Col> */}
+              {/* <Col > */}
+              <Button variant="outline-info" onClick={e => this.schedulerSubmit(e)} >Submit</Button>{' '}
+              <Button variant="outline-success" onClick={() => this.panelClick()} >Panel</Button>
+              {/* <Link to="/scheduler" >Scheduler</Link> */}
             </Col>
           </Row>
         </Container>
