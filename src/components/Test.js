@@ -1,3 +1,4 @@
+import { Button } from 'bootstrap';
 import React from 'react';
 
 export default class Test extends React.Component {
@@ -12,21 +13,24 @@ export default class Test extends React.Component {
         };
     }
 
+    setData() {
+        console.log("in setData!");
+        localStorage.setItem('user','Hello');
+    }
+
+    getData() {
+        console.log("in getData!");
+        let data = localStorage.getItem('user');
+        console.log("user", data)
+    }
+
     render() {
         const { postId } = this.state;
         return (
-            <div className="card text-center m-3">
-                <h5 className="card-header">Simple POST Request</h5>
-                <div className="card-body">
-                    Email: {postId}
-                </div>
-                <div className="card-body">
-                    Account: {postId}
-                </div>
-                <div className="card-body">
-                    Balance: {postId}
-                </div>
-            </div>
+            <>
+            <button onClick={ ()=>this.setData() }>Set</button>
+            <button onClick={ ()=>this.getData() }>Get</button>
+            </>
         );
     }
 }

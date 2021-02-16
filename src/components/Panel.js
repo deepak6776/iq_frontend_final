@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Container, Form, Row, Col, Button } from 'react-bootstrap';
+import { Container, Form, Row, Col, Button, Card, CardGroup } from 'react-bootstrap';
 import axios from 'axios';
 
 export default class Panel extends Component {
   state = {
+    name: "",
     formGridScheduler: "",
     formGridBet: "",
     formGridAmount: ""
@@ -25,13 +26,18 @@ export default class Panel extends Component {
     console.log(this.state.formGridAmount)
 
     console.log("In scheduler submit")
-    const url = 'http://13.232.113.198/placepanel';
+    // const url = 'http://34.93.12.130/placepanel';
+    const url = 'http://127.0.0.1:5000/placepanel';
     const data = {
-      schedulename: this.state.formGridScheduler,
-      betname: this.state.formGridBet,
+      name: this.state.name,
+      scheduleName: this.state.formGridScheduler,
+      betName: this.state.formGridBet,
       amount: this.state.formGridAmount
     }
-    axios.post(url, data)
+    const headers = {
+      'Access-Control-Allow-Origin': '*'
+    };
+    axios.post(url, data, { headers })
       .then(response => console.log(response.data))
     this.setState({
       formGridScheduler: "",
@@ -49,48 +55,73 @@ export default class Panel extends Component {
 
   }
 
+  componentDidMount() {
+    console.log("Component mounted");
+    const tmp = localStorage.getItem('name');
+    this.setState({ name: tmp })
+  }
+
   render() {
+    const isLoggedIn = this.state.name;
     return (
+
       <>
-        <form>
-          <input
-            name="formGridScheduler"
-            type="text"
-            placeholder="Enter Scheduler Name"
-            value={this.state.formGridScheduler}
-            onChange={e => this.change(e)} />
-          <br />
-          <br />
-          <input
-            name="formGridBet"
-            type="text"
-            placeholder="Enter Bed Name"
-            value={this.state.formGridBet}
-            onChange={e => this.change(e)} />
-          <br />
-          <br />
-          <input
-            name="formGridAmount"
-            type="text"
-            placeholder="Enter Amount"
-            value={this.state.formGridAmount}
-            onChange={e => this.change(e)} />
-          <br />
-          <br />
-          <Container >
-            <Row>
-              <Col >
-                {/* <Link to="/dashboard" >Dashboard</Link>{'     '} */}
-                {/* </Col> */}
-                {/* <Col > */}
-                <Button variant="outline-info" onClick={e => this.panelSubmit(e)} >Submit</Button>{' '}
-                <Button variant="outline-success" onClick={() => this.dashboardClick()} >Dashboard</Button>
-                {/* <Link to="/scheduler" >Scheduler</Link> */}
-                {/* onClick={e => this.betSubmit(e)}  */}
+        {isLoggedIn
+          ? <form>
+            <input
+              name="formGridScheduler"
+              type="text"
+              placeholder="Enter Scheduler Name"
+              value={this.state.formGridScheduler}
+              onChange={e => this.change(e)} />
+            <br />
+            <br />
+            <input
+              name="formGridBet"
+              type="text"
+              placeholder="Enter Bed Name"
+              value={this.state.formGridBet}
+              onChange={e => this.change(e)} />
+            <br />
+            <br />
+            <input
+              name="formGridAmount"
+              type="text"
+              placeholder="Enter Amount"
+              value={this.state.formGridAmount}
+              onChange={e => this.change(e)} />
+            <br />
+            <br />
+            <Container >
+              <Row>
+                <Col >
+                  {/* <Link to="/dashboard" >Dashboard</Link>{'     '} */}
+                  {/* </Col> */}
+                  {/* <Col > */}
+                  <Button variant="outline-info" onClick={e => this.panelSubmit(e)} >Submit</Button>{' '}
+                  <Button variant="outline-success" onClick={() => this.dashboardClick()} >Dashboard</Button>
+                  {/* <Link to="/scheduler" >Scheduler</Link> */}
+                  {/* onClick={e => this.betSubmit(e)}  */}
+                </Col>
+              </Row>
+            </Container>
+          </form>
+          : <Container>
+            <Row className="justify-content-center">
+              <Col xs="6">
+                <CardGroup>
+                  <Card border="primary" style={{ width: '18rem' }}>
+                    <Card.Header>{localStorage.getItem('name') ? "User: {localStorage.getItem('name')}" : "User: None"}</Card.Header>
+                    <Card.Body>
+                      <Card.Text>Please Login!</Card.Text>
+                    </Card.Body>
+                  </Card>
+                </CardGroup>
               </Col>
             </Row>
           </Container>
-        </form>
+        }
+
       </>
       // <Form>
       //   <Form.Row className="justify-content-center">

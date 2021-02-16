@@ -5,18 +5,19 @@ import axios from 'axios'
 
 export default class Home extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-        email: "elamparuthi2021@gmail.com",
-        password: "Harur@1991",
-        account: "PRACTICE",
-        balance: ""
+            name: localStorage.getItem('name'),
+            email: localStorage.getItem('email'),
+            password: localStorage.getItem('password'),
+            account: "PRACTICE",
+            balance: ""
         }
     }
 
-    
-    
+
+
 
     // change = e => {
     //     this.setState({
@@ -25,35 +26,35 @@ export default class Home extends Component {
     // };
 
     // getBalance = e => {
-        // e.preventDefault();
-        // this.props.onSubmit(this.state);
-        // console.log('getBalance function triggered!');
-        // console.log(this.state)
-        // const requestOptions ={
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(this.state)
-        // };
-        // const response = await fetch('http://127.0.0.1:5000/checkbalance', requestOptions)
-        // const data = await 
+    // e.preventDefault();
+    // this.props.onSubmit(this.state);
+    // console.log('getBalance function triggered!');
+    // console.log(this.state)
+    // const requestOptions ={
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(this.state)
+    // };
+    // const response = await fetch('http://127.0.0.1:5000/checkbalance', requestOptions)
+    // const data = await 
 
-        // fetch('http://127.0.0.1:5000/checkbalance', requestOptions)
-        // .then(async response => {
-        //     const data = await response.json();
+    // fetch('http://127.0.0.1:5000/checkbalance', requestOptions)
+    // .then(async response => {
+    //     const data = await response.json();
 
-        //     // check for error response
-        //     if (!response.ok) {
-        //         // get error message from body or default to response status
-        //         const error = (data && data.message) || response.status;
-        //         return Promise.reject(error);
-        //     }
+    //     // check for error response
+    //     if (!response.ok) {
+    //         // get error message from body or default to response status
+    //         const error = (data && data.message) || response.status;
+    //         return Promise.reject(error);
+    //     }
 
-        //     console.log(data)
-        // })
-        // .catch(error => {
-        //     this.setState({ errorMessage: error.toString() });
-        //     console.error('There was an error!', error);
-        // });
+    //     console.log(data)
+    // })
+    // .catch(error => {
+    //     this.setState({ errorMessage: error.toString() });
+    //     console.error('There was an error!', error);
+    // });
 
     //     this.setState({
     //         email: "",
@@ -64,22 +65,45 @@ export default class Home extends Component {
     // };
 
     async componentDidMount() {
-        const url = 'http://13.232.113.198/checkbalance';
-        const data = { 
-                        email: this.state.email,
-                        password: this.state.password,
-                        balance: this.state.balance
-                    }
-        let response = await axios.post(url, data)
-        console.log(response.data)
-        const tmp = response.data
-        console.log(tmp)
-        this.setState({ balance: tmp }) 
-        
+        // 34.93.12.130 gcp
+        // 34.232.113.198 aws
+        // const url = 'http://34.93.12.130/checkbalance';
+        if (localStorage.getItem('name')) {
+            console.log("Component mount home page");
+            const url = 'http://127.0.0.1:5000/checkbalance';
+            // let tmp_name = localStorage.getItem('name');
+            // let tmp_email = localStorage.getItem('email');
+            // let tmp_password = localStorage.getItem('password');
+            // console.log(tmp_name);
+            // console.log(tmp_email);
+            // console.log(tmp_password);
+            // console.log(this.state.name);
+            // this.setState({
+            //     name: tmp_name,
+            //     email: tmp_email,
+            //     password :tmp_password
+            // });
+            console.log(this.state.name);
+            console.log(this.state.email);
+            console.log(this.state.password);
+            const data = {
+                email: this.state.email,
+                password: this.state.password,
+                balance: this.state.balance
+            }
+            let response = await axios.post(url, data)
+            console.log(response.data)
+            const tmp = response.data
+            console.log(tmp)
+            this.setState({ balance: tmp })
+
+        }
+
 
     }
 
-    dashboardClick(){
+
+    dashboardClick() {
         // let history = useHistory();
         console.log("Moving to Dashboard");
         // history.push('/dashboard')
@@ -125,7 +149,7 @@ export default class Home extends Component {
                         <br />
                         {/* <Button variant="primary">Primary</Button>{' '}
                         <Button variant="secondary">Secondary</Button> */}
-                    {/* </form> */}
+                {/* </form> */}
                 {/* </div> } */}
                 {/* <Table striped bordered hover size="sm">
                     <thead>
@@ -146,10 +170,10 @@ export default class Home extends Component {
                         <Col xs="6">
                             <CardGroup>
                                 <Card border="primary" style={{ width: '18rem' }}>
-                                    <Card.Header>Elamparuthi K</Card.Header>
+                                    <Card.Header>{localStorage.getItem('name') ? localStorage.getItem('name') : "None"}</Card.Header>
                                     <Card.Body>
-                                        <Card.Title>Practice Account</Card.Title>
-                                        <Card.Title>Balance $ {this.state.balance} </Card.Title>
+                                        <Card.Title>Account: Practice</Card.Title>
+                                        <Card.Title>Balance: $ {this.state.balance ? this.state.balance : "0"} </Card.Title>
                                     </Card.Body>
                                 </Card>
                             </CardGroup>
@@ -162,7 +186,7 @@ export default class Home extends Component {
                     <Row>
                         <Col >
                             {/* <Button variant="outline-success" onClick={e => this.getBalance(e)}>Get Balance</Button>{'     '} */}
-                            <Button variant="outline-success" onClick={()=>this.dashboardClick()}>Dashboard</Button>
+                            <Button variant="outline-success" onClick={() => this.dashboardClick()}>Dashboard</Button>
                             {/* <Link to="/dashboard" >Dashboard</Link> */}
                         </Col>
                     </Row>
