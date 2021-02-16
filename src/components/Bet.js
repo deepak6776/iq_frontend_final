@@ -32,8 +32,8 @@ export default class Bet extends Component {
     console.log(this.state.side)
     console.log(this.state.leverage)
     console.log("In bet submit")
-    // const url = 'http://34.93.12.130/placebet';
-    const url = 'http://127.0.0.1:5000/placebet';
+    const url = 'http://34.93.12.130/placebet';
+    // const url = 'http://127.0.0.1:5000/placebet';
     const data = {
       name: this.state.name,
       betName: this.state.betName,
@@ -95,11 +95,11 @@ export default class Bet extends Component {
           </Form.Row>
 
           <Form.Row className="justify-content-center">
-            <Form.Group as={Col} xs="3" controlId="instrumentId">
-              <Form.Label>Instrument Id</Form.Label>
+            <Form.Group as={Col} xs="3" controlId="instrumentType">
+              <Form.Label>Instrument Type</Form.Label>
               <Form.Control as="select" defaultValue="Choose..."
-                value={this.state.instrumentId}
-                onChange={e => this.setState({ instrumentId: e.target.value })}
+                value={this.state.instrumentType}
+                onChange={e => this.setState({ instrumentType: e.target.value })}
               >
                 <option>Choose...</option>
                 <option>...</option>
@@ -112,11 +112,11 @@ export default class Bet extends Component {
                 <option>ETFs</option>
               </Form.Control>
             </Form.Group>
-            <Form.Group as={Col} xs="3" controlId="instrumentType">
-              <Form.Label>Instrument Type</Form.Label>
-              <Form.Control placeholder="Enter Instrument Type"
-                value={this.state.instrumentType}
-                onChange={e => this.setState({ instrumentType: e.target.value })}
+            <Form.Group as={Col} xs="3" controlId="instrumentId">
+              <Form.Label>Instrument Id</Form.Label>
+              <Form.Control placeholder="Enter Instrument Id"
+                value={this.state.instrumentId}
+                onChange={e => this.setState({ instrumentId: e.target.value })}
               />
             </Form.Group>
           </Form.Row>

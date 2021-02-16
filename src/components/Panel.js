@@ -5,6 +5,8 @@ import axios from 'axios';
 export default class Panel extends Component {
   state = {
     name: "",
+    email: "",
+    password: "",
     formGridScheduler: "",
     formGridBet: "",
     formGridAmount: ""
@@ -25,19 +27,19 @@ export default class Panel extends Component {
     console.log(this.state.formGridBet)
     console.log(this.state.formGridAmount)
 
-    console.log("In scheduler submit")
+    console.log("In Panel submit")
     // const url = 'http://34.93.12.130/placepanel';
     const url = 'http://127.0.0.1:5000/placepanel';
     const data = {
       name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
       scheduleName: this.state.formGridScheduler,
       betName: this.state.formGridBet,
       amount: this.state.formGridAmount
     }
-    const headers = {
-      'Access-Control-Allow-Origin': '*'
-    };
-    axios.post(url, data, { headers })
+    console.log(data);
+    axios.post(url, data,)
       .then(response => console.log(response.data))
     this.setState({
       formGridScheduler: "",
@@ -57,8 +59,15 @@ export default class Panel extends Component {
 
   componentDidMount() {
     console.log("Component mounted");
-    const tmp = localStorage.getItem('name');
-    this.setState({ name: tmp })
+    const tmp_name = localStorage.getItem('name'); 
+    const tmp_email = localStorage.getItem('email');
+    const tmp_password = localStorage.getItem('password');
+    console.log(tmp_name);
+    console.log(tmp_email);
+    console.log(tmp_password);
+    this.setState({ name: tmp_name, email: tmp_email, password: tmp_password });
+    console.log(this.state.email);
+    console.log(this.state.password);
   }
 
   render() {
@@ -79,7 +88,7 @@ export default class Panel extends Component {
             <input
               name="formGridBet"
               type="text"
-              placeholder="Enter Bed Name"
+              placeholder="Enter Bet Name"
               value={this.state.formGridBet}
               onChange={e => this.change(e)} />
             <br />

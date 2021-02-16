@@ -50,8 +50,8 @@ export default class Scheduler extends Component {
     console.log(this.state.formStopTimeHourMin)
     console.log(this.state.formDays)
     console.log("In scheduler submit")
-    // const url = 'http://34.93.12.130/placeschedule';
-    const url = 'http://127.0.0.1:5000/placeschedule';
+    const url = 'http://34.93.12.130/placeschedule';
+    // const url = 'http://127.0.0.1:5000/placeschedule';
     const data = {
       name: this.state.name,
       scheduleName: this.state.formScheduleName,

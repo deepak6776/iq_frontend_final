@@ -70,7 +70,8 @@ export default class Home extends Component {
         // const url = 'http://34.93.12.130/checkbalance';
         if (localStorage.getItem('name')) {
             console.log("Component mount home page");
-            const url = 'http://127.0.0.1:5000/checkbalance';
+            const url = 'http://34.93.12.130/placeschedule';
+            // const url = 'http://127.0.0.1:5000/checkbalance';
             // let tmp_name = localStorage.getItem('name');
             // let tmp_email = localStorage.getItem('email');
             // let tmp_password = localStorage.getItem('password');
